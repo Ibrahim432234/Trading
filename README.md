@@ -29,8 +29,36 @@ Ein vollständiges, selbstlernendes Machine-Learning-Trading-System für Kryptow
 - Feature Importance
 - Confusion Matrix
 - Trade Analysis Dashboard
+- **Performance Dashboard** (NEW!)
+- Walk-Forward Analysis Plots
 
-## Installation
+### Advanced Tools
+- **Walk-Forward Analysis**: Robuste Out-of-Sample Validation
+- **Strategy Optimization**: Automatische Parameter-Optimierung
+- **Model Comparison**: Leaderboard aller Experimente
+- **Live Monitoring**: Real-time Trading Dashboard
+- **Jupyter Notebooks**: Interaktive Workflows
+- **Makefile**: Automatisierte Tasks
+
+## Quick Start
+
+### Option 1: Using Makefile (Recommended)
+
+```bash
+# Complete setup
+make setup
+
+# Train model
+make train
+
+# Run backtest
+make backtest
+
+# Show dashboard
+make dashboard
+```
+
+### Option 2: Manual Installation
 
 ### Requirements
 - Python 3.9+
@@ -79,7 +107,9 @@ backtest:
   position_size: 0.02  # 2% per trade
 ```
 
-## Usage
+## Core Scripts
+
+### Main Scripts
 
 ### 1. Training
 
@@ -128,6 +158,78 @@ python live.py --model data/models/best_model.pkl --mode live --confirm
 
 **⚠️ WICHTIG**: Live-Trading ist mit echtem Geld! Teste immer zuerst im Paper-Mode.
 
+## Advanced Tools
+
+### Helper Scripts
+
+Siehe `scripts/README.md` für Details.
+
+#### Walk-Forward Analysis
+
+```bash
+python scripts/run_walk_forward.py \
+  --data data/raw/BTC_USDT_1h.parquet \
+  --model xgboost
+```
+
+#### Strategy Optimization
+
+```bash
+python scripts/optimize_strategy.py \
+  --model data/models/xgboost_*.pkl \
+  --data data/raw/BTC_USDT_1h.parquet
+```
+
+#### Model Comparison
+
+```bash
+python scripts/compare_models.py --top-n 10
+```
+
+#### Performance Dashboard
+
+```bash
+python scripts/dashboard.py --save reports/dashboard.png
+```
+
+#### Live Monitoring
+
+```bash
+python scripts/monitor_live.py --refresh 5
+```
+
+### Jupyter Notebooks
+
+Interaktive Workflows in `notebooks/`:
+
+- `01_complete_workflow.ipynb`: Kompletter Workflow von Daten bis Backtest
+
+Start Jupyter:
+
+```bash
+jupyter notebook notebooks/01_complete_workflow.ipynb
+```
+
+### Makefile Commands
+
+Schnelle Befehle für häufige Tasks:
+
+```bash
+make help          # Zeige alle Commands
+make install       # Dependencies installieren
+make test          # Run unit tests
+make train         # Train default model
+make train-multi   # Train multiple models
+make backtest      # Backtest latest model
+make walk-forward  # Walk-forward analysis
+make optimize      # Optimize strategy
+make dashboard     # Show dashboard
+make compare       # Compare models
+make monitor       # Monitor live trading
+make clean         # Clean cache
+make setup         # Complete setup
+```
+
 ## Project Structure
 
 ```
@@ -139,9 +241,18 @@ Trading/
 │   ├── features/            # Feature engineering
 │   ├── models/              # ML models and training
 │   ├── backtest/            # Backtesting engine
-│   ├── evaluation/          # Metrics and visualization
+│   ├── evaluation/          # Metrics, visualization, walk-forward
 │   ├── live_trading/        # Live trading implementation
 │   └── utils/               # Utilities
+├── scripts/                 # Helper scripts (NEW!)
+│   ├── run_walk_forward.py  # Walk-forward analysis
+│   ├── optimize_strategy.py # Strategy optimization
+│   ├── compare_models.py    # Model comparison
+│   ├── dashboard.py         # Performance dashboard
+│   ├── monitor_live.py      # Live monitoring
+│   └── README.md            # Scripts documentation
+├── notebooks/               # Jupyter notebooks (NEW!)
+│   └── 01_complete_workflow.ipynb
 ├── data/
 │   ├── raw/                 # Raw OHLCV data
 │   ├── processed/           # Processed data
@@ -150,12 +261,13 @@ Trading/
 │   └── logs/                # System logs
 ├── tests/                   # Unit tests
 ├── reports/                 # Generated reports
-├── notebooks/               # Jupyter notebooks
 ├── train.py                 # Training script
 ├── backtest.py              # Backtesting script
 ├── live.py                  # Live trading script
+├── Makefile                 # Task automation (NEW!)
 ├── requirements.txt         # Python dependencies
-└── README.md               # This file
+├── QUICKSTART.md            # Quick start guide
+└── README.md                # This file
 ```
 
 ## Architecture
