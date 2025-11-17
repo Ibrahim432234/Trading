@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Data & Models
+data/raw/*
+data/processed/*
+data/models/*
+data/experiments/*
+data/logs/*
+*.csv
+*.parquet
+*.pkl
+*.h5
+*.joblib
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/models/.gitkeep
+!data/experiments/.gitkeep
+!data/logs/.gitkeep
+
+# Environment & Secrets
+.env
+.env.local
+*.key
+config/secrets.yaml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# MLflow
+mlruns/
+
+# Logs
+*.log

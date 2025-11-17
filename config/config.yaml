@@ -1,0 +1,108 @@
+# ML Trading System Configuration
+
+# Data Settings
+data:
+  symbol: "BTC/USDT"
+  exchange: "binance"
+  timeframes: ["1h", "4h", "1d"]
+  start_date: "2020-01-01"
+  end_date: null  # null = today
+
+# Feature Engineering
+features:
+  indicators:
+    sma_windows: [10, 20, 50, 100, 200]
+    ema_windows: [12, 26, 50]
+    rsi_period: 14
+    macd: [12, 26, 9]
+    bbands_period: 20
+    atr_period: 14
+
+  labels:
+    type: "classification"  # classification or regression
+    horizon: [1, 5, 20]  # predict N periods ahead
+    threshold: 0.02  # 2% price movement for classification
+
+  time_features: true
+  lagged_returns: [1, 2, 3, 5, 10]
+
+# Model Training
+models:
+  test_size: 0.2
+  validation_size: 0.1
+  cv_splits: 5
+  random_state: 42
+
+  algorithms:
+    - logistic_regression
+    - random_forest
+    - xgboost
+    - lightgbm
+    # - lstm  # optional, requires more setup
+
+  hyperparameter_tuning:
+    enabled: true
+    method: "optuna"  # optuna or grid_search
+    n_trials: 50
+    timeout: 3600  # 1 hour
+
+# Backtesting
+backtest:
+  initial_capital: 10000
+  position_sizing: "fixed_fraction"  # fixed_fraction, kelly, risk_based
+  position_size: 0.02  # 2% of capital
+
+  costs:
+    commission: 0.001  # 0.1% per trade
+    slippage: 0.0005   # 0.05%
+
+  risk_management:
+    stop_loss: 0.02    # 2%
+    take_profit: 0.04  # 4%
+    max_drawdown: 0.20 # 20%
+    max_positions: 1   # number of concurrent positions
+
+  strategies:
+    - momentum_ml
+    - mean_reversion_ml
+    - volatility_breakout_ml
+
+# Evaluation
+evaluation:
+  metrics:
+    - total_return
+    - cagr
+    - sharpe_ratio
+    - sortino_ratio
+    - max_drawdown
+    - win_rate
+    - profit_factor
+    - calmar_ratio
+
+  walk_forward:
+    enabled: true
+    train_period: 180  # days
+    test_period: 30    # days
+    step: 30           # days
+
+# AutoML Loop
+automl:
+  enabled: true
+  retrain_frequency: "weekly"  # daily, weekly, monthly
+  min_sharpe: 1.0
+  max_drawdown: 0.20
+  auto_deploy: false  # if true, auto-deploy best model to paper trading
+
+# Live Trading
+live_trading:
+  enabled: false
+  mode: "paper"  # paper or live
+  check_interval: 60  # seconds
+  max_daily_trades: 10
+  emergency_stop_loss: 0.10  # 10% account loss
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "data/logs/trading_system.log"
+  experiment_tracking: "json"  # json or mlflow
